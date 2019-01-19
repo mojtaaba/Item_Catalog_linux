@@ -11,12 +11,11 @@ import json
 import httplib2
 import requests
 
-path = os.path.dirname(__file__)
 
 app = Flask(__name__)
-CLIENT_ID = json.loads(open(path+'/client_secrets.json', 'r').read())['web']['client_id']
+CLIENT_ID = json.loads('/var/www/FlaskApp/FlaskApp/client_secrets.json', 'r').read())['web']['client_id']
 
-engine = create_engine('postgresql://catalog:catalog123@localhost/catalog')
+engine = create_engine('postgresql://catalog:password@localhost/catalog')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -306,7 +305,7 @@ def gconnect():
 
     try:
 
-        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        oauth_flow = flow_from_clientsecrets('/var/www/FlaskApp/FlaskApp/client_secrets.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
